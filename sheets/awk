@@ -7,6 +7,33 @@ printf '1\n2\n3\n' | awk '{sum += $1} END {print sum}'
 # Using specific character as separator to sum integers from a file or STDIN.
 printf '1:2:3' | awk -F ":" '{print $1+$2+$3}'
 
+# Print line number 12 of file.txt
+awk 'NR==12' file.txt
+
+# Print first field for each record in file.txt
+awk '{print $1}' file.txt
+
+Print only lines that match regex in file.txt
+awk '/regex/' file.txt
+
+# Print only lines that do not match regex in file.txt
+awk '!/regex/' file.txt
+
+# Print any line where field 2 is equal to "foo" in file.txt
+awk '$2 == "foo"' file.txt
+
+# Print lines where field 2 is NOT equal to "foo" in file.txt
+awk '$2 != "foo"' file.txt
+
+# Print line if field 1 matches regex in file.txt
+awk '$1 ~ /regex/' file.txt
+
+# Print line if field 1 does NOT match regex in file.txt
+awk '$1 !~ /regex/' file.txt
+
+# Print lines with more than 80 characters in file.txt
+awk 'length > 80' file.txt
+
 # Print a multiplication table.
 awk -v RS='' '
     {
@@ -20,7 +47,12 @@ awk -v RS='' '
 printf '1 2 3' | awk 'BEGIN {OFS=":"}; {print $1,$2,$3}'
 
 # Search paragraph for the given REGEX match.
+# Paragraphs will be collapsed together.
 awk -v RS='' '/42B/' file
+
+# Search paragraph for the given REGEX match.
+# Paragraphs will be separated with a new line.
+awk -v RS= ORS='\n\n' '/42B/' file
 
 # Display only first field in text taken from STDIN.
 echo 'Field_1  Field_2  Field_3' | awk '{print $1}'
@@ -100,3 +132,9 @@ awk '
 		}
 	}
 ' FILE
+
+# Remove duplicate lines
+awk '!seen[$0]++' file.txt
+
+# Remove all empty lines
+awk 'NF > 0' file.txt
